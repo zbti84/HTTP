@@ -30,11 +30,16 @@ class MainActivity : Activity() {
             // 검색 api 호출
             //manager에서 인터페이스를 가져오고 호출함수 사용하고
             RetrofitManager.instance.searchPOI(searchKeyword = location,completion = {
-                responseState, responseDataArrayList ->
+                responseState, parsePOIDataArray ->
 
                 when(responseState){
                     Constant.RESPONSE_STATE.OKAY->{  //만약 STATE가 OKEY라면
                         Log.d("로그", "api호출 성공")
+                        if (parsePOIDataArray != null) {
+                            Log.d("결과값", "${parsePOIDataArray.get(0).name}")
+                        }
+                        //그냥 parsePOIDataArray.get(0).name 을 치고 Alt+Enter을 하면 가장 위에 것을 선택하면 오류해결
+
                     }
                     Constant.RESPONSE_STATE.FAIL->{//만약 STATE가 FAIL라면
                         Log.d("로그", "api호출 실패")
