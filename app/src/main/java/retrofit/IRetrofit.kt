@@ -13,10 +13,8 @@ interface IRetrofit {
     //Call<JsonElement>은 반환
 
     @FormUrlEncoded
-    @POST(Constant.API.SEARCH_LOUTE)
-    fun searchLoute(@Query("version")version:Int,
-                    @Query("appkey")appkey:String,
-                    @Field("startX")startX:Double,
+    @POST(Constant.API.SEARCH_ROUTE)
+    fun searchRoute(@Field("startX")startX:Double,
                     @Field("startY")startY:Double,
                     @Field("endX")endX:Double,
                     @Field("endY")endY:Double,

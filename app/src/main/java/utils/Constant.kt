@@ -12,7 +12,7 @@ object Constant {
 
 
         const val SEARCH_POI : String = "pois"
-        const val SEARCH_LOUTE : String = "routes/pedestrian"
+        const val SEARCH_ROUTE : String = "routes/pedestrian"
 
     }
     enum class RESPONSE_STATE {
