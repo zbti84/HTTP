@@ -132,17 +132,21 @@ class RetrofitManager {
                                 val geometry=featureObject.get("geometry").asJsonObject
                                 val coordinates=geometry.get("coordinates")//JsonElement
 
+                                //JsonArray->ArrayList
                                 val jsonarr = Gson().fromJson(coordinates,ArrayList::class.java).listIterator()
 
                                 while (jsonarr.hasNext()){
                                     val next = jsonarr.next()
-                                    if(next !is Double)
-                                    Log.d("coor로그","${next}")
+                                    if(next !is Double){
+                                        Log.d("coor로그","${next}")
+                                        var routeItem = Route(next as ArrayList<Double>)
+                                        parseRouteDataArray.add(routeItem)
+                                    }
                                 }
                                 i++
                             }
-
-                            Log.d("로그", "RetrofitManager - onResponse() 필요응답 : ${parseRouteDataArray}")
+                            Log.d("coor로그","${parseRouteDataArray}")
+                            Log.d("coor로그","${parseRouteDataArray.get(0).coordinates.get(0)}")
                             completion(Constant.RESPONSE_STATE.OKAY,parseRouteDataArray)
                         }
                     }
