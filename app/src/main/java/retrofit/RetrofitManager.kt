@@ -125,21 +125,24 @@ class RetrofitManager {
 
                             val features=body.getAsJsonArray("features")
 
-                            var i=0
-
                             features.forEach { featuresItem->
                                 val featureObject = featuresItem.asJsonObject
                                 val geometry=featureObject.get("geometry").asJsonObject
                                 val coordinates=geometry.get("coordinates")//JsonElement
 
-                                val jsonarr = Gson().fromJson(coordinates,ArrayList::class.java).listIterator()
-
-                                while (jsonarr.hasNext()){
-                                    val next = jsonarr.next()
-                                    if(next !is Double)
-                                    Log.d("coor로그","${next}")
+                                val properties = featureObject.get("properties").asJsonObject
+                                var turnType : Int
+                                try{
+                                    turnType = properties.get("turnType").asInt
+                                }catch (e : NullPointerException){
+                                    turnType = 0
                                 }
-                                i++
+
+                                var RouteItem = Route(
+                                    coordinates = coordinates,
+                                    turnType = turnType
+                                )
+                                parseRouteDataArray.add(RouteItem)
                             }
 
                             Log.d("로그", "RetrofitManager - onResponse() 필요응답 : ${parseRouteDataArray}")

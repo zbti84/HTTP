@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import com.example.http.databinding.ActivityMainBinding
+import com.google.gson.Gson
 import retrofit.RetrofitManager
 import utils.Constant
 
@@ -33,34 +34,34 @@ class MainActivity : Activity() {
         button=findViewById(R.id.Button)
         button2=findViewById(R.id.Button2)
 
-//        button.setOnClickListener {
-//            Log.d("로그", "MainActivity - POI 버튼이 클릭되었다. /")
-//
-//            // 검색 api 호출
-//            //manager에서 인터페이스를 가져오고 호출함수 사용하고
-//            RetrofitManager.instance.searchPOI(searchKeyword = location,completion = {
-//                responseState, parsePOIDataArray ->
-//
-//                when(responseState){
-//                    Constant.RESPONSE_STATE.OKAY->{  //만약 STATE가 OKEY라면
-//                        Log.d("로그", " POI api호출 성공")
-//                        if (parsePOIDataArray != null) {
-//                            Log.d("결과값", "${parsePOIDataArray.get(0).name}")
-//                        }
-//                        //그냥 parsePOIDataArray.get(0).name 을 치고 Alt+Enter을 하면 가장 위에 것을 선택하면 오류해결
-//
-//                    }
-//                    Constant.RESPONSE_STATE.FAIL->{//만약 STATE가 FAIL라면
-//                        Log.d("로그", " POIapi호출 실패")
-//                    }
-//                    Constant.RESPONSE_STATE.NO_CONTENT->{//만약 NO_CONTENT가 FAIL라면
-//                        Log.d("로그", " POI 결과가 없습니다.")
-//                    }
-//                }
-//            })
-//        }
+        button.setOnClickListener {
+            Log.d("로그", "MainActivity - POI 버튼이 클릭되었다. /")
 
-        //button2.setOnClickListener{
+            // 검색 api 호출
+            //manager에서 인터페이스를 가져오고 호출함수 사용하고
+            RetrofitManager.instance.searchPOI(searchKeyword = location,completion = {
+                responseState, parsePOIDataArray ->
+
+                when(responseState){
+                    Constant.RESPONSE_STATE.OKAY->{  //만약 STATE가 OKEY라면
+                        Log.d("로그", " POI api호출 성공")
+                        if (parsePOIDataArray != null) {
+                            Log.d("결과값", "${parsePOIDataArray.get(0).name}")
+                        }
+                        //그냥 parsePOIDataArray.get(0).name 을 치고 Alt+Enter을 하면 가장 위에 것을 선택하면 오류해결
+
+                    }
+                    Constant.RESPONSE_STATE.FAIL->{//만약 STATE가 FAIL라면
+                        Log.d("로그", " POIapi호출 실패")
+                    }
+                    Constant.RESPONSE_STATE.NO_CONTENT->{//만약 NO_CONTENT가 FAIL라면
+                        Log.d("로그", " POI 결과가 없습니다.")
+                    }
+                }
+            })
+        }
+
+        button2.setOnClickListener{
             Log.d("로그", "MainActivity - ROUTE 버튼이 클릭되었다. /")
 
             // 길찾기 호출
@@ -77,11 +78,25 @@ class MainActivity : Activity() {
                 when(responseState){
                     Constant.RESPONSE_STATE.OKAY->{  //만약 STATE가 OKEY라면
                         Log.d("로그", " ROUTE api호출 성공")
+
+                        var coordinates = arrayListOf<List<Double>>()  //경로를 받는 이중배열리스트
+
                         if (parseRouteDataArray != null) {
                             Log.d("결과값","${parseRouteDataArray.toString()}")
+
+                            var jsonarr = parseRouteDataArray.listIterator()
+                            while (jsonarr.hasNext()){
+                                var jsonarrNext = jsonarr.next().coordinates.asJsonArray
+                                var next = Gson().fromJson(jsonarrNext,ArrayList::class.java).listIterator()
+                                while (next.hasNext()){
+                                    val next2 = next.next()
+                                    if(next2 !is Double){
+                                        coordinates.add(next2 as List<Double>)
+                                    }
+                                }
+                            }
+                            Log.d("coor로그","${coordinates}")
                         }
-
-
                     }
                     Constant.RESPONSE_STATE.FAIL->{//만약 STATE가 FAIL라면
                         Log.d("로그", " ROUTE api호출 실패")
@@ -92,8 +107,6 @@ class MainActivity : Activity() {
                 }
             })
         }
-
-    //}
-
+    }
 
 }
