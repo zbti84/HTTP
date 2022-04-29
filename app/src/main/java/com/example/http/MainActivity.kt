@@ -16,7 +16,7 @@ class MainActivity : Activity() {
     private lateinit var button:Button
     private lateinit var button2:Button
 
-    var location : String = "한성대입구역"
+    var location : String = "뷃ㄱ"
 
     var startx=127.0690745902964
     var starty=37.83296140345568
@@ -24,6 +24,18 @@ class MainActivity : Activity() {
     var endy=37.84368779816498
     var startname="%EC%B6%9C%EB%B0%9C"
     var endname="%EB%B3%B8%EC%82%AC"
+
+
+    //긴 로그 출력
+    fun LogLineBreak(str: String) {
+        if (str.length > 3000) {    // 텍스트가 3000자 이상이 넘어가면 줄
+            Log.d("로그long", str.substring(0, 3000))
+            LogLineBreak(str.substring(3000))
+        } else {
+            Log.d("로그long", str)
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,22 +92,28 @@ class MainActivity : Activity() {
                         Log.d("로그", " ROUTE api호출 성공")
 
                         var coordinates = arrayListOf<List<Double>>()  //경로를 받는 이중배열리스트
+                        var turnTypes = arrayListOf<Int?>()
 
                         if (parseRouteDataArray != null) {
-                            Log.d("결과값","${parseRouteDataArray.toString()}")
+                            LogLineBreak(parseRouteDataArray.toString())
 
                             var jsonarr = parseRouteDataArray.listIterator()
                             while (jsonarr.hasNext()){
-                                var jsonarrNext = jsonarr.next().coordinates.asJsonArray
-                                var next = Gson().fromJson(jsonarrNext,ArrayList::class.java).listIterator()
+                                var jsonarrNext = jsonarr.next()
+
+                                var corrdinate = jsonarrNext.coordinates.asJsonArray
+                                var next = Gson().fromJson(corrdinate,ArrayList::class.java).listIterator()
                                 while (next.hasNext()){
                                     val next2 = next.next()
                                     if(next2 !is Double){
                                         coordinates.add(next2 as List<Double>)
                                     }
                                 }
+                                var turnType = jsonarrNext.turnType
+                                turnTypes.add(turnType)
                             }
                             Log.d("coor로그","${coordinates}")
+                            Log.d("turnType로그","${turnTypes}")
                         }
                     }
                     Constant.RESPONSE_STATE.FAIL->{//만약 STATE가 FAIL라면
@@ -108,5 +126,4 @@ class MainActivity : Activity() {
             })
         }
     }
-
 }

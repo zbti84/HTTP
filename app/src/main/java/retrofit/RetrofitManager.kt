@@ -131,16 +131,26 @@ class RetrofitManager {
                                 val coordinates=geometry.get("coordinates")//JsonElement
 
                                 val properties = featureObject.get("properties").asJsonObject
-                                var turnType : Int
-                                try{
-                                    turnType = properties.get("turnType").asInt
-                                }catch (e : NullPointerException){
-                                    turnType = 0
-                                }
+                                var turnType : Int?
+                                var facilityType : String?
+                                var roadType : Int?
+                                var totalDistance : Int?
+                                var distance : Int?
+
+                                turnType = properties.get("turnType")?.asInt
+                                facilityType = properties.get("facilityType")?.asString
+                                roadType = properties.get("roadType")?.asInt
+                                totalDistance = properties.get("totalDistance")?.asInt
+                                distance = properties.get("distance")?.asInt
+
 
                                 var RouteItem = Route(
                                     coordinates = coordinates,
-                                    turnType = turnType
+                                    turnType = turnType,
+                                    facilityType = facilityType,
+                                    roadType = roadType,
+                                    totalDistance = totalDistance,
+                                    distance = distance
                                 )
                                 parseRouteDataArray.add(RouteItem)
                             }
