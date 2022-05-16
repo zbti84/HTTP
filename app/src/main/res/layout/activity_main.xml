@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="70dp"
-        android:text="Button" />
+        android:layout_marginTop="40dp"
+        android:text="POI" />
 
 
     <Button
@@ -22,7 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="150dp"
-        android:text="Button2" />
+        android:layout_marginTop="90dp"
+        android:text="ROUTE" />
+
 
 </androidx.wear.widget.BoxInsetLayout>

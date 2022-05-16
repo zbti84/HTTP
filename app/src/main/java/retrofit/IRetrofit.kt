@@ -19,7 +19,8 @@ interface IRetrofit {
                     @Field("endX")endX:Double,
                     @Field("endY")endY:Double,
                     @Field("startName")startName:String,
-                    @Field("endName")endName:String
+                    @Field("endName")endName:String,
+                    @Field("searchOption")searchOption:Int
                     ):Call<JsonElement>
 
 

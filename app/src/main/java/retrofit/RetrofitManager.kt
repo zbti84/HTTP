@@ -93,7 +93,7 @@ class RetrofitManager {
 
 
     //경로탐색 api호출
-    fun searchRoute(startX:Double, startY:Double, endX:Double, endY:Double, startname:String,endname:String,completion: (Constant.RESPONSE_STATE, ArrayList<Route>?) -> Unit){
+    fun searchRoute(startX:Double, startY:Double, endX:Double, endY:Double, startname:String,endname:String,searchOption:Int,completion: (Constant.RESPONSE_STATE, ArrayList<Route>?) -> Unit){
         val iRetrofitRoute : IRetrofit? = RetrofitClient.getRouteClient(Constant.API.BASE_URL)?.create(IRetrofit::class.java)
 
         val startX=startX
@@ -102,8 +102,9 @@ class RetrofitManager {
         val endY=endY
         val startname=startname
         val endname=endname
+        val searchOption=searchOption
 
-        val call=iRetrofitRoute?.searchRoute(startX = startX,startY=startY,endX=endX,endY=endY,startName = startname,endName = endname).let{
+        val call=iRetrofitRoute?.searchRoute(startX = startX,startY=startY,endX=endX,endY=endY,startName = startname,endName = endname,searchOption=searchOption).let{
             it
         }?:return
 
